@@ -15,12 +15,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-
-import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
-
-import static com.example.stalker.bnrtwocriminalintent.R.id.time;
 
 /**
  * Created by staLker on 22-02-2017.

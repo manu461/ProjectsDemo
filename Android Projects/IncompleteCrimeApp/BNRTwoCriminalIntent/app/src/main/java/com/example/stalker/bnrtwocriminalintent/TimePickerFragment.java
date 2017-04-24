@@ -12,16 +12,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TimePicker;
-
-import java.sql.Time;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.zip.Inflater;
-
-import static android.provider.AlarmClock.EXTRA_HOUR;
-import static android.provider.AlarmClock.EXTRA_MINUTES;
 
 /**
  * Created by staLker on 22-04-2017.
@@ -59,7 +50,6 @@ public class TimePickerFragment extends DialogFragment {
     }
 
     public static TimePickerFragment newInstance(int hours, int minutes) {
-
         Bundle args = new Bundle();
         args.putInt(ARG_HOUR,hours);
         args.putInt(ARGS_MINUTES,minutes);

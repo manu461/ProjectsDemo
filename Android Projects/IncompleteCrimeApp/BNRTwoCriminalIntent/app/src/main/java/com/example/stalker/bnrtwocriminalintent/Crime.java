@@ -1,6 +1,4 @@
 package com.example.stalker.bnrtwocriminalintent;
-
-import java.sql.Time;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -20,7 +18,7 @@ public class Crime {
 
     public String getFormattedTime(){
         int hours = this.getHours();
-        String am_pm = hours>=12 ? "P.M." : "A.M.";
+        String am_pm = hours>=12 ? "P.M" : "A.M";
         int hoursTemp;
         if(hours == 0){
             hoursTemp = 12;
