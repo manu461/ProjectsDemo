@@ -48,7 +48,7 @@ public class TimePickerFragment extends DialogFragment {
                 })
                 .create();
     }
-
+//
     public static TimePickerFragment newInstance(int hours, int minutes) {
         Bundle args = new Bundle();
         args.putInt(ARG_HOUR,hours);
