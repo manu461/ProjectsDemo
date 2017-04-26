@@ -13,40 +13,41 @@ public class Crime {
     private UUID mId;
     private Date mDate;
     private boolean mSolved;
-    private int hours;
-    private int minutes;
+    private int mHours;
+    private int mMinutes;
 
     public String getFormattedTime(){
-        int hours = this.getHours();
-        String am_pm = hours>=12 ? "P.M" : "A.M";
-        int hoursTemp;
-        if(hours == 0){
-            hoursTemp = 12;
-        }
-        else if(hours > 13){
-            hoursTemp = hours%12;
-        }
-        else {
-            hoursTemp = hours;
-        }
 
-        return hoursTemp+":"+this.getMinutes()+" "+am_pm;
+        int hours = this.getHours();
+        int minutes = this.getMinutes();
+        String am_pm = hours>=12 ? "P.M" : "A.M";
+
+        int hoursTemp;
+        if(hours == 0){hoursTemp = 12;}
+        else if(hours > 13){hoursTemp = hours%12;}
+        else {hoursTemp = hours;}
+
+        String minutesTemp;
+        if(minutes<10){minutesTemp = "0"+minutes;}
+        else{minutesTemp = minutes+"";}
+
+        return hoursTemp+":"+minutesTemp+" "+am_pm;
     }
 
     public int getHours() {
-        return hours;
+        return mHours;
     }
 
     public void setHours(int hours) {
-        this.hours = hours;
+        this.mHours = hours;
     }
 
     public int getMinutes() {
-        return minutes;
+        return mMinutes;
     }
 
     public void setMinutes(int minutes) {
-        this.minutes = minutes;
+        this.mMinutes = minutes;
     }
 
     public Crime(){
@@ -54,7 +55,7 @@ public class Crime {
         mDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(mDate);
-        setHours(calendar.get(Calendar.HOUR));
+        setHours(calendar.get(Calendar.HOUR_OF_DAY));
         setMinutes(calendar.get(Calendar.MINUTE));
     }
 
