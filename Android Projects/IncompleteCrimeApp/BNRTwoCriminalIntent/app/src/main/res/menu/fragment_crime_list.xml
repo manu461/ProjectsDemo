@@ -6,8 +6,25 @@
         android:title="@string/new_crime"
         android:icon="@drawable/ic_action_add"
         app:showAsAction="withText|ifRoom">
-
     </item>
 
 
+    <item
+        android:id="@+id/menu_item_show_subtitle"
+        android:title="@string/show_subtitle"
+        app:showAsAction="withText"
+        >
+    </item>
+    <item
+        android:id="@+id/menu_item_hide_subtitle"
+        android:title="@string/hide_subtitle"
+        app:showAsAction="withText"
+        >
+    </item>
+    <item
+        android:id="@+id/menu_item_exit"
+        android:title="@string/menu_exit"
+        app:showAsAction="withText">
+
+    </item>
 </menu>
