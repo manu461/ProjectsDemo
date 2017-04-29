@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto">
+              xmlns:card_view="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools">
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="fill_parent"
+        android:alpha="0.8"
         android:layout_height="100dp"
-        android:layout_margin="10dp"
         card_view:cardElevation="4dp"
         card_view:cardCornerRadius="8dp"
         card_view:contentPadding="6dp"
+        card_view:cardUseCompatPadding="true"
         >
         <LinearLayout
             android:layout_width="fill_parent"
@@ -23,6 +25,7 @@
         <TextView
             android:text="Crime_Title"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold"
@@ -34,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
+            android:clickable="false"
             android:id="@+id/list_item_solved_checkBox"/>
 
     </LinearLayout>
@@ -46,6 +50,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/list_item_date_textView"
         android:padding="6dp"
+
         />
         </LinearLayout>
     </android.support.v7.widget.CardView>

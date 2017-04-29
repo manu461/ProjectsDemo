@@ -11,8 +11,7 @@
         <activity android:name=".CrimeActivityUnused">
         </activity>
 
-        <activity android:name=".CrimePagerActivity"
-            android:parentActivityName=".CrimeListActivity">
+        <activity android:name=".CrimePagerActivity">
         </activity>
 
         <activity android:name=".CrimeListActivity">

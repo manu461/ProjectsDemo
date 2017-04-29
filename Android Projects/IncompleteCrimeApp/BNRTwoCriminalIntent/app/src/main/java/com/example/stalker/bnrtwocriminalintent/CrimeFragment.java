@@ -1,5 +1,5 @@
 package com.example.stalker.bnrtwocriminalintent;
-
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,11 +22,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import java.util.Date;
 import java.util.UUID;
-
 /**
  * Created by staLker on 22-02-2017.
  */
-
 public class CrimeFragment extends Fragment {
     private static final int REQUEST_DATE = 1011;
     private static final int REQUEST_TIME = 2022;
@@ -61,6 +59,7 @@ public class CrimeFragment extends Fragment {
             case R.id.menu_item_delete_crime:
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.delete_warning)
+                        .setMessage(R.string.delete_message)
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -77,6 +76,9 @@ public class CrimeFragment extends Fragment {
                         .show();
 
                 return true;
+            case android.R.id.home :
+                getActivity().finish();
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -87,13 +89,17 @@ public class CrimeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         UUID crimeId = (UUID) getArguments().getSerializable(ARGS_KEY_CRIME_FRAGMENT);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
         View v = inflater.inflate(R.layout.fragment_crime,container,false);
 
         mTitleField = (EditText) v.findViewById(R.id.crime_title_editText);
@@ -126,7 +132,6 @@ public class CrimeFragment extends Fragment {
                 datePickerFragment.show(fragmentManager,DIALOG_DATE);
             }
         });
-
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.solved_checkbox);
         mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -151,7 +156,6 @@ public class CrimeFragment extends Fragment {
         return v;
     }
     ////git check comment
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode != Activity.RESULT_OK){

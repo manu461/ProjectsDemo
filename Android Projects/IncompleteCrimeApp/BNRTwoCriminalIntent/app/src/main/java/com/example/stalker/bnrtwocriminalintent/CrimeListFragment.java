@@ -25,6 +25,7 @@ import java.util.List;
 
 public class CrimeListFragment extends Fragment {
 
+    private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
     private RecyclerView mRecyclerView;
     private CrimeAdapter mCrimeAdapter;
     private boolean isSubtitleVisible;
@@ -42,6 +43,13 @@ public class CrimeListFragment extends Fragment {
         super.onResume();
         updateUI();
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(SAVED_SUBTITLE_VISIBLE,isSubtitleVisible);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -104,6 +112,9 @@ public class CrimeListFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);//wiring up the recyclerView.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//Layout manager handles the positioning of items and also defines the scrolling behaviour.
         mEmptyRecyclerViewImageView = (ImageView) view.findViewById(R.id.empty_recycler_view_image);
+        if(savedInstanceState!=null){
+            isSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+        }
         updateUI();
         return view;
     }
