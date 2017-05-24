@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_height="match_parent"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:background="@drawable/background_crime_list"
+             xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            android:orientation="vertical"
+                                            android:id="@+id/recycler_view"
+                                            android:layout_width="match_parent"
+                                            android:visibility="invisible"
+                                            android:background="@drawable/background_crime_list"
+                                            android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:alpha="0.7"
+        android:id="@+id/empty_recycler_view_image"
+        android:src="@drawable/add_crime_image"
+        android:scaleType="fitXY"/>
+
+</FrameLayout>
