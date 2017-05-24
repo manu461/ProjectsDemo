@@ -1,6 +1,9 @@
 package com.example.stalker.bnrtwocriminalintent;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.example.stalker.bnrtwocriminalintent.database.CrimeBaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,8 @@ import java.util.UUID;
 public class CrimeLab {
     private static CrimeLab sCrimeLab;
     private List<Crime> mCrimes;
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
 
     protected static CrimeLab get(Context context){//returns the object.
         /*---------------->Remember we have to learn more about this context in Chapter 14<--------------*/
@@ -26,6 +31,8 @@ public class CrimeLab {
 
     private CrimeLab(Context context) {
         //private constructor for singleton class
+        mContext = context.getApplicationContext();
+        mDatabase = new CrimeBaseHelper(context).getWritableDatabase();
         mCrimes = new ArrayList<>();
 //        for(int i=0;i<100;i++){
 //            Crime crime = new Crime();
