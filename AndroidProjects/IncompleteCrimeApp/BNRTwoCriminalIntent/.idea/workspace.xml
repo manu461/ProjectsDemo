@@ -33,6 +33,7 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/menu/fragment_crime.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterPath="" />
@@ -2018,7 +2019,7 @@
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="device.picker.selection" value="3300f75eb6ab63a5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DBUpdate/BNRTwoCriminalIntent" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi" />
   </component>
   <component name="RecentsManager">
@@ -2409,8 +2410,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1924" height="1084" extended-state="1" />
-    <editor active="true" />
+    <frame x="-9" y="-9" width="1924" height="1084" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32685715" sideWeight="0.49570355" order="12" side_tool="false" content_ui="tabs" />

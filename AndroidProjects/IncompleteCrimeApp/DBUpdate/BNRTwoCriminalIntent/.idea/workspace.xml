@@ -33,6 +33,7 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/menu/fragment_crime.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterPath="" />
@@ -1719,6 +1720,7 @@
       <map>
         <entry key="C:\Users\staLker\Desktop\GitHubLocal\ProjectsDemo\Android Projects\IncompleteCrimeApp\BNRTwoCriminalIntent" value="4472772337840" />
         <entry key="C:\Users\staLker\Desktop\GitHubLocal\ProjectsDemo\AndroidProjects\IncompleteCrimeApp\BNRTwoCriminalIntent" value="4472772337840" />
+        <entry key="C:\Users\staLker\Desktop\GitHubLocal\ProjectsDemo\AndroidProjects\IncompleteCrimeApp\DBUpdate\BNRTwoCriminalIntent" value="4472772337840" />
         <entry key="C:\Users\staLker\Desktop\android_13thjune-master\BNRTwoCriminalIntent" value="4471379231737" />
       </map>
     </option>
@@ -1980,11 +1982,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane />
-      </pane>
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2005,7 +2003,11 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2409,8 +2411,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1924" height="1084" extended-state="1" />
-    <editor active="true" />
+    <frame x="-9" y="-9" width="1924" height="1084" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32685715" sideWeight="0.49570355" order="12" side_tool="false" content_ui="tabs" />
@@ -2425,7 +2427,7 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23889491" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23889491" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299025" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
