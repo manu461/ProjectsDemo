@@ -1,0 +1,29 @@
+{
+  "name": "carauction-network",
+  "version": "0.0.1",
+  "description": "List assets for sale (setting a reserve price), and watch as assets that have met their reserve price are automatically transferred to the highest bidder at the end of the auction.",
+  "scripts": {
+    "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/carauction-network.bna",
+    "pretest": "npm run lint",
+    "lint": "eslint .",
+    "test": "nyc mocha -t 0 test/*.js && cucumber-js"
+  },
+  "author": "rastogi_manu",
+  "email": "rastogimanu461@gmail.com",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "composer-admin": "^0.19.2",
+    "composer-cli": "^0.19.2",
+    "composer-client": "^0.19.2",
+    "composer-common": "^0.19.2",
+    "composer-connector-embedded": "^0.19.2",
+    "composer-cucumber-steps": "^0.19.2",
+    "chai": "latest",
+    "chai-as-promised": "latest",
+    "cucumber": "^2.2.0",
+    "eslint": "latest",
+    "nyc": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}
