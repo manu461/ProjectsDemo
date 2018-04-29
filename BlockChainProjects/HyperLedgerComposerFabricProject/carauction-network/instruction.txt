@@ -1,0 +1,84 @@
+*******start fabric**********
+
+ctrl+alt+t
+
+cd fabric-tools
+
+./startFabric.sh
+
+
+
+
+
+******start business network*********
+
+cd ..
+
+cd carauction-network
+
+
+**install**
+composer network install --card PeerAdmin@hlfv1 --archiveFile carauction-network@0.0.1.bna
+
+**start**
+composer network start --networkName carauction-network --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file PeerAdmin.card
+
+##import##
+---->use only when creating new business network<------
+composer card import --file PeerAdmin.card
+
+**check-ping**
+composer network ping --card admin@carauction-network
+
+
+
+
+
+*********start rest api*************
+
+composer-rest-server
+
+admin@carauction-network
+
+never use namespaces
+
+n
+
+y
+
+n
+
+
+
+
+############create angular app#############
+---->use only when creating angular app first time<------
+ctrl+alt+t
+
+cd carauction-network
+
+yo hyperledger-composer:angular
+
+y
+enter name,desc,author,email,licence
+
+admin@carauction-network
+
+Select Connect to an existing REST API
+http://localhost
+3000
+Namespaces are not used
+
+
+
+
+***********start the angular app***********
+ctrl+alt+t
+
+cd carauction-network/carauction-angular-app
+
+npm start
+
+open http://localhost:4200
+
+
