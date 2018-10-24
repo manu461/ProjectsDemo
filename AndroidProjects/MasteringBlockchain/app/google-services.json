@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "151275950512",
+    "firebase_url": "https://masteringblockchain-61ceb.firebaseio.com",
+    "project_id": "masteringblockchain-61ceb",
+    "storage_bucket": "masteringblockchain-61ceb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151275950512:android:134d46a8b2fc1750",
+        "android_client_info": {
+          "package_name": "e.dekod.masteringblockchain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151275950512-hnde7od3t7sia63m98sgebr534g0jcjm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARqGBLPe0sFBwWh4PiJ8VSB975QZqNkyI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
