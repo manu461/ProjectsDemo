@@ -2,37 +2,34 @@ package e.dekod.masteringblockchain.Beans;
 
 import android.media.Image;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.util.List;
 
-public class Chapter {
-    private int chapterSerial;
+public class Chapter implements Serializable {
+    private int chapterSerialId;
     private String chapterTitle;
     private String chapterDescription;
-    private int chapterProgress;
-    private Image chapterIcon;
-    private boolean chapterIsComplete = false;
+    private String chapterIconURI;
     private List<Unit> unitsOfChapter;
 
+    public Chapter() {
+    }
 
-
-
-    public Chapter(int chapterSerial, String chapterTitle, String chapterDescription, int chapterProgress, Image chapterIcon, boolean chapterIsComplete, List<Unit> unitsOfChapter) {
-        this.chapterSerial = chapterSerial;
+    public Chapter(int chapterSerialId, String chapterTitle, String chapterDescription, String chapterIconURI, List<Unit> unitsOfChapter) {
+        this.chapterSerialId = chapterSerialId;
         this.chapterTitle = chapterTitle;
         this.chapterDescription = chapterDescription;
-        this.chapterProgress = chapterProgress;
-        this.chapterIcon = chapterIcon;
-        this.chapterIsComplete = chapterIsComplete;
+        this.chapterIconURI = chapterIconURI;
         this.unitsOfChapter = unitsOfChapter;
     }
 
-    public int getChapterSerial() {
-        return chapterSerial;
+    public int getChapterSerialId() {
+        return chapterSerialId;
     }
 
-    public void setChapterSerial(int chapterSerial) {
-        this.chapterSerial = chapterSerial;
+    public void setChapterSerialId(int chapterSerialId) {
+        this.chapterSerialId = chapterSerialId;
     }
 
     public String getChapterTitle() {
@@ -51,28 +48,12 @@ public class Chapter {
         this.chapterDescription = chapterDescription;
     }
 
-    public int getChapterProgress() {
-        return chapterProgress;
+    public String getChapterIconURI() {
+        return chapterIconURI;
     }
 
-    public void setChapterProgress(int chapterProgress) {
-        this.chapterProgress = chapterProgress;
-    }
-
-    public Image getChapterIcon() {
-        return chapterIcon;
-    }
-
-    public void setChapterIcon(Image chapterIcon) {
-        this.chapterIcon = chapterIcon;
-    }
-
-    public boolean isChapterIsComplete() {
-        return chapterIsComplete;
-    }
-
-    public void setChapterIsComplete(boolean chapterIsComplete) {
-        this.chapterIsComplete = chapterIsComplete;
+    public void setChapterIconURI(String chapterIconURI) {
+        this.chapterIconURI = chapterIconURI;
     }
 
     public List<Unit> getUnitsOfChapter() {
@@ -86,15 +67,11 @@ public class Chapter {
     @Override
     public String toString() {
         return "Chapter{" +
-                "chapterSerial=" + chapterSerial +
+                "chapterSerialId=" + chapterSerialId +
                 ", chapterTitle='" + chapterTitle + '\'' +
                 ", chapterDescription='" + chapterDescription + '\'' +
-                ", chapterProgress=" + chapterProgress +
-                ", chapterIcon=" + chapterIcon +
-                ", chapterIsComplete=" + chapterIsComplete +
+                ", chapterIconURI='" + chapterIconURI + '\'' +
                 ", unitsOfChapter=" + unitsOfChapter +
                 '}';
     }
-
-
 }
