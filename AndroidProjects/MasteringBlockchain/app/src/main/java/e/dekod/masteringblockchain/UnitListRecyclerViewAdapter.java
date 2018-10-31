@@ -8,7 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -38,7 +41,12 @@ public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRe
         Unit unit = allUnitsList.get(position);
         holder.unitSerialTextView.setText("Unit "+unit.getUnitSerialId()+":");
         holder.unitTitleTextView.setText(unit.getUnitTitle());
+        Picasso.get().load(unit.getUnitIconURL()).into(holder.unitIconImageView);
+        if(position==1){
+           holder.unitIconImageView.setImageResource(R.drawable.completed);
+        }
         holder.unit = allUnitsList.get(position);
+
 
     }
 
@@ -52,14 +60,15 @@ public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRe
         private TextView unitTitleTextView;
         private Button viewTopicsButton;
         private CheckBox unitIsCompleteCheckBox;
+        private ImageView unitIconImageView;
         private Unit unit;
 
         public UnitListRecyclerViewHolder(final View itemView) {
             super(itemView);
             unitSerialTextView = itemView.findViewById(R.id.unitSerialID_textView);
             unitTitleTextView = itemView.findViewById(R.id.unitTitle_textView);
+            unitIconImageView = itemView.findViewById(R.id.unitIcon_imageView);
             viewTopicsButton = itemView.findViewById(R.id.viewTopics_button);
-            unitIsCompleteCheckBox = itemView.findViewById(R.id.unit_isComplete_checkBox);
             viewTopicsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

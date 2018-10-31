@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +43,7 @@ import java.util.Map;
 import e.dekod.masteringblockchain.Beans.Chapter;
 import e.dekod.masteringblockchain.Beans.Topic;
 import e.dekod.masteringblockchain.Beans.Unit;
+import e.dekod.masteringblockchain.Beans.User;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -49,8 +52,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     FirebaseAuth mAuth;
     private ProgressBar progressBarChapterList;
     private RecyclerView chapterRecyclerView;
-    private DatabaseReference databaseChapters;
     private ArrayList<Chapter> allChapterList;
+    private User user;
+    private int topicCount;
+    private Object var;
+    private DatabaseReference databaseRoot;
+
+    private DatabaseReference databaseChapters;
+    private DatabaseReference databaseUser;
+    private DatabaseReference databaseTopicCount;
+    private boolean topicStatusExists = false;
 
 
     @Override
@@ -76,6 +87,43 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+        databaseTopicCount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                topicCount = dataSnapshot.getValue(Integer.class);
+                Log.d("manu","topicCount: "+topicCount+" :");
+                if(!topicStatusExists){
+                    ArrayList<Boolean> topicsStatus = new ArrayList<>();
+                    for(int i=1 ; i<=topicCount ; i++){
+                        databaseUser.child(mAuth.getCurrentUser().getUid()+"").child("topicsStatus").child(i+"").setValue("false")
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(HomeActivity.this, aVoid+"", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(HomeActivity.this, e+"", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        Log.d("manu","topicStatus"+databaseUser.child(mAuth.getCurrentUser().getUid()).child("topicsStatus")+"");
+
     }
 
     @Override
@@ -87,7 +135,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         chapterRecyclerView = (RecyclerView) findViewById(R.id.chapter_list_recycler_view);
         chapterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        databaseChapters = FirebaseDatabase.getInstance().getReference();
+        databaseRoot = FirebaseDatabase.getInstance().getReference();
+        databaseTopicCount = databaseRoot.child("topicCount");
+        databaseChapters = databaseRoot.child("chapters");
+        databaseUser = databaseRoot.child("users");
+
+        databaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("topicsStatus")){
+                    topicStatusExists = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
 
         /*/************demo data*****************
         Topic topic1 = new Topic(1,null,null,"",null,null,null);

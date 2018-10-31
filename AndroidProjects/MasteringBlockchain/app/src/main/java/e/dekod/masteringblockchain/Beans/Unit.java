@@ -5,14 +5,19 @@ import java.util.List;
 
 public class Unit implements Serializable {
     private int unitSerialId;
+    private String unitIconURL;
     private String unitTitle;
     private List<Topic> topicsOfUnit;
+
+
 
     public Unit() {
     }
 
-    public Unit(int unitSerialId, String unitTitle, List<Topic> topicsOfUnit) {
+
+    public Unit(int unitSerialId, String unitIconURL, String unitTitle, List<Topic> topicsOfUnit) {
         this.unitSerialId = unitSerialId;
+        this.unitIconURL = unitIconURL;
         this.unitTitle = unitTitle;
         this.topicsOfUnit = topicsOfUnit;
     }
@@ -33,6 +38,14 @@ public class Unit implements Serializable {
         this.unitTitle = unitTitle;
     }
 
+    public String getUnitIconURL() {
+        return unitIconURL;
+    }
+
+    public void setUnitIconURL(String unitIconURL) {
+        this.unitIconURL = unitIconURL;
+    }
+
     public List<Topic> getTopicsOfUnit() {
         return topicsOfUnit;
     }
@@ -45,6 +58,7 @@ public class Unit implements Serializable {
     public String toString() {
         return "Unit{" +
                 "unitSerialId=" + unitSerialId +
+                ", unitIconURL='" + unitIconURL + '\'' +
                 ", unitTitle='" + unitTitle + '\'' +
                 ", topicsOfUnit=" + topicsOfUnit +
                 '}';

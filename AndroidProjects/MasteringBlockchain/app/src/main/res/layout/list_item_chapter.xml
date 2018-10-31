@@ -41,7 +41,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="UNDERSTANDING BLOCKCHAIN"
+                    android:textAllCaps="true"
                     android:layout_gravity="center"
+                    android:minLines="2"
                     style="@style/ListTitles"
                     android:padding="5dp"
                     android:layout_marginLeft="10dp"
@@ -64,6 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:minLines="3"
+
                 android:padding="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
