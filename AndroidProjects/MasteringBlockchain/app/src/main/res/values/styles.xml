@@ -45,6 +45,10 @@
 
     </style>
 
+    <style name="CustomSpinner" parent="FirebaseUI.TopProgressBar">
+        <item name="android:color">#ffffff</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 

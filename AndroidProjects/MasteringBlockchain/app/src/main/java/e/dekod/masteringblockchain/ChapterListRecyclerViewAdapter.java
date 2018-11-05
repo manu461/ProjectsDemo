@@ -1,5 +1,6 @@
 package e.dekod.masteringblockchain;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -13,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -25,8 +28,10 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
 
 
     private ArrayList<Chapter> allChaptersList;
-    public ChapterListRecyclerViewAdapter(ArrayList<Chapter> allChaptersList) {
+    Context context;
+    public ChapterListRecyclerViewAdapter(ArrayList<Chapter> allChaptersList, Context context) {
         this.allChaptersList = allChaptersList;
+        this.context = context;
     }
 
     @NonNull
@@ -38,9 +43,20 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChapterListRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ChapterListRecyclerViewHolder holder, int position) {
         Chapter chapter = allChaptersList.get(position);
-        Picasso.get().load(chapter.getChapterIconURI()).into(holder.chapterIconImageView);
+        Picasso.get().load(chapter.getChapterIconURI()).into(holder.chapterIconImageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.lottieAnimationView.cancelAnimation();
+                holder.lottieAnimationView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
         holder.chapterTitleTextView.setText(chapter.getChapterTitle());
         holder.chapterDescriptionTextView.setText(chapter.getChapterDescription());
         holder.chapter = allChaptersList.get(position);
@@ -61,6 +77,7 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
         private TextView chapterProgressTextView;
         private TextView chapterSerialTextView;
         private CheckBox chapterIsCompleteCheckbox;
+        private LottieAnimationView lottieAnimationView;
         private Chapter chapter;
         private CardView chapterCardView;
         public ChapterListRecyclerViewHolder(final View itemView) {
@@ -73,6 +90,7 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
             chapterSerialTextView = itemView.findViewById(R.id.chapter_serial_textView);
             chapterIsCompleteCheckbox = itemView.findViewById(R.id.chapter_isComplete_checkBox);
             chapterCardView = itemView.findViewById(R.id.cardView_chapter);
+            lottieAnimationView = itemView.findViewById(R.id.image_loading_lottie_chapter);
 
             chapterCardView.setOnClickListener(new View.OnClickListener() {
                 @Override

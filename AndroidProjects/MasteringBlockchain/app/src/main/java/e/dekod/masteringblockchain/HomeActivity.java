@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.smarteist.autoimageslider.SliderLayout;
+import com.smarteist.autoimageslider.SliderView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -41,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 import e.dekod.masteringblockchain.Beans.Chapter;
+import e.dekod.masteringblockchain.Beans.CryptoCurrency;
+import e.dekod.masteringblockchain.Beans.Luggage;
 import e.dekod.masteringblockchain.Beans.Topic;
 import e.dekod.masteringblockchain.Beans.Unit;
 import e.dekod.masteringblockchain.Beans.User;
@@ -49,80 +55,38 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     private static final String KEY = "e.dekod.masteringblockchain.HomeActivity";
-    FirebaseAuth mAuth;
-    private ProgressBar progressBarChapterList;
-    private RecyclerView chapterRecyclerView;
+
+    //private RecyclerView chapterRecyclerView;
+    private SliderLayout sliderLayout;
+    //private RecyclerView cryptoRecyclerView;
+    private RecyclerView masterRecyclerView;
+    private Luggage luggage;
     private ArrayList<Chapter> allChapterList;
+    private ArrayList<CryptoCurrency> allCryptoList;
     private User user;
     private int topicCount;
-    private Object var;
-    private DatabaseReference databaseRoot;
-
-    private DatabaseReference databaseChapters;
-    private DatabaseReference databaseUser;
-    private DatabaseReference databaseTopicCount;
-    private boolean topicStatusExists = false;
+    private ArrayList<String> homePageImages;
+    private boolean sliderViewIsSetOnce = false;
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        databaseChapters.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                allChapterList = new ArrayList<Chapter>();
-                allChapterList.clear();
-                Iterable<DataSnapshot> var = dataSnapshot.getChildren();
-                for(DataSnapshot chapterSnapshot : var){
-                    Chapter chapter = chapterSnapshot.getValue(Chapter.class);
-                    allChapterList.add(chapter);
 
-                }
+        allChapterList = luggage.getAllChapterList();
+        allCryptoList = luggage.getAllCryptoList();
+        user = luggage.getUser();
+        Log.d("debug","Home : "+user.toString());
+        topicCount = luggage.getTopicCount();
+        homePageImages = luggage.getHomePageImages();
 
-                chapterRecyclerView.setAdapter(new ChapterListRecyclerViewAdapter(allChapterList));
-            }
+        if(!sliderViewIsSetOnce) {
+            setSliderViews();
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        databaseTopicCount.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                topicCount = dataSnapshot.getValue(Integer.class);
-                Log.d("manu","topicCount: "+topicCount+" :");
-                if(!topicStatusExists){
-                    ArrayList<Boolean> topicsStatus = new ArrayList<>();
-                    for(int i=1 ; i<=topicCount ; i++){
-                        databaseUser.child(mAuth.getCurrentUser().getUid()+"").child("topicsStatus").child(i+"").setValue("false")
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(HomeActivity.this, aVoid+"", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(HomeActivity.this, e+"", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        Log.d("manu","topicStatus"+databaseUser.child(mAuth.getCurrentUser().getUid()).child("topicsStatus")+"");
+        //chapterRecyclerView.setAdapter(new ChapterListRecyclerViewAdapter(allChapterList));
+        //cryptoRecyclerView.setAdapter(new CryptoListRecyclerViewAdapter(allCryptoList));
+        masterRecyclerView.setAdapter(new HomeRecyclerViewMasterAdapter(this,allChapterList,allCryptoList));
 
     }
 
@@ -130,91 +94,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        progressBarChapterList = findViewById(R.id.progressBar_chapterList);
-        chapterRecyclerView = (RecyclerView) findViewById(R.id.chapter_list_recycler_view);
-        chapterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //progressBarChapterList = findViewById(R.id.progressBar_chapterList);
+        //chapterRecyclerView = (RecyclerView) findViewById(R.id.chapter_list_recycler_view);
+        //cryptoRecyclerView = findViewById(R.id.crypto_list_recycler_view);
+        masterRecyclerView = findViewById(R.id.master_recycler_view);
 
-        databaseRoot = FirebaseDatabase.getInstance().getReference();
-        databaseTopicCount = databaseRoot.child("topicCount");
-        databaseChapters = databaseRoot.child("chapters");
-        databaseUser = databaseRoot.child("users");
+        sliderLayout = findViewById(R.id.imageSlider);
 
-        databaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild("topicsStatus")){
-                    topicStatusExists = true;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.FILL);
+        sliderLayout.setScrollTimeInSec(1);
 
 
+        //chapterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //cryptoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+        masterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        luggage = (Luggage) getIntent().getSerializableExtra(KEY);
 
-
-
-        /*/************demo data*****************
-        Topic topic1 = new Topic(1,null,null,"",null,null,null);
-        Topic topic2 = new Topic(2,null,null,null,null,null,null);
-        Topic topic3 = new Topic(3,null,null,null,null,null,null);
-        Topic topic4 = new Topic(4,null,null,null,null,null,null);
-        Topic topic5 = new Topic(5,null,null,null,null,null,null);
-        Topic topic6 = new Topic(6,null,null,null,null,null,null);
-
-        List<Topic> allTopicsUnit1 = new ArrayList<Topic>();
-        allTopicsUnit1.add(topic1);
-        allTopicsUnit1.add(topic2);
-
-
-        List<Topic> allTopicsUnit2 = new ArrayList<Topic>();
-        allTopicsUnit2.add(topic4);
-        allTopicsUnit2.add(topic5);
-
-
-        Unit unit1 = new Unit(1,null,allTopicsUnit1);
-        Unit unit2 = new Unit(2,null,allTopicsUnit2);
-
-        List<Unit> allUnitsOfChapter = new ArrayList<Unit>();
-        allUnitsOfChapter.add(unit1);
-        allUnitsOfChapter.add(unit2);
-
-
-
-        Chapter chapter1 = new Chapter(1,null,null,null,allUnitsOfChapter);
-        Chapter chapter2 = new Chapter(2,null,null,null,allUnitsOfChapter);
-        Chapter chapter3 = new Chapter(3,null,null,null,allUnitsOfChapter);
-
-        allChapterList = new ArrayList<>();
-
-        allChapterList.add(chapter1);
-        allChapterList.add(chapter2);
-
-        ChaptersClass chaptersClass = new ChaptersClass(allChapterList);
-
-        ObjectMapper mapper = new ObjectMapper();
-//        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String json = null;
-        try {
-            json = mapper.writeValueAsString(chaptersClass);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        Log.d("manu",json);
-        System.out.println(json);
-        //************demo data*****************/
-
-
-        //chapterRecyclerView.setAdapter(new ChapterListRecyclerViewAdapter(allChapterList));
-
-        mAuth = FirebaseAuth.getInstance();
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -225,7 +124,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -241,8 +143,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-        TextView textView = (TextView)findViewById(R.id.textview_email);
-        textView.setText(mAuth.getCurrentUser().getEmail());
+        ImageView userImageView = findViewById(R.id.userImage_nav_bar_imageView);
+        TextView nameTextView = findViewById(R.id.userName_nav_bar_textView);
+        TextView emailTextView = (TextView)findViewById(R.id.userEmail_nav_bar_textView);
+
+        Picasso.get().load(user.getUserImage()).into(userImageView);
+        nameTextView.setText(user.getUserName());
+        emailTextView.setText(user.getUserEmail());
         return true;
     }
 
@@ -279,9 +186,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         } else if (id == R.id.nav_logout) {
-            mAuth.signOut();
+            FirebaseAuth.getInstance().signOut();
             finish();
-            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+            startActivity(new Intent(HomeActivity.this, SplashScreen.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -289,8 +196,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public static Intent getIntent(Context context){
+    private void setSliderViews() {
+        for(int i=0;i<homePageImages.size();i++){
+            SliderView sliderView = new SliderView(this);
+            sliderView.setImageUrl(homePageImages.get(i));
+            sliderView.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
+            sliderLayout.addSliderView(sliderView);
+            sliderViewIsSetOnce = true;
+        }
+    }
+
+    public static Intent getIntent(Context context, Luggage luggage){
         Intent intent = new Intent(context,HomeActivity.class);
+        intent.putExtra(KEY, luggage);
         return intent;
     }
 }

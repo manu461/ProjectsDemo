@@ -2,6 +2,7 @@ package e.dekod.masteringblockchain;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,13 +40,30 @@ public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UnitListRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final UnitListRecyclerViewHolder holder, int position) {
         Unit unit = allUnitsList.get(position);
-        holder.unitSerialTextView.setText("Unit "+unit.getUnitSerialId()+":");
+        holder.unitSerialTextView.setText("UNIT "+unit.getUnitSerialId());
         holder.unitTitleTextView.setText(unit.getUnitTitle());
-        Picasso.get().load(unit.getUnitIconURL()).into(holder.unitIconImageView);
+        Picasso.get().load(unit.getUnitIconURL()).into(holder.unitIconImageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.imageLoadingAnimationView.setVisibility(View.GONE);
+                holder.imageLoadingAnimationView.cancelAnimation();
+                holder.imageLoadedUnitIncompleteAnimationView.setVisibility(View.VISIBLE);
+                holder.imageLoadedUnitIncompleteAnimationView.playAnimation();
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
         if(position==1){
            holder.unitIconImageView.setImageResource(R.drawable.completed);
+           holder.imageLoadedUnitIncompleteAnimationView.setVisibility(View.GONE);
+           holder.imageLoadedUnitIncompleteAnimationView.cancelAnimation();
+           holder.imageLoadedUnitCompleteAnimationView.setVisibility(View.VISIBLE);
+           holder.imageLoadedUnitCompleteAnimationView.playAnimation();
         }
         holder.unit = allUnitsList.get(position);
 
@@ -58,9 +78,12 @@ public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRe
     public class UnitListRecyclerViewHolder extends RecyclerView.ViewHolder{
         private TextView unitSerialTextView;
         private TextView unitTitleTextView;
-        private Button viewTopicsButton;
         private CheckBox unitIsCompleteCheckBox;
         private ImageView unitIconImageView;
+        private CardView unitCardView;
+        private LottieAnimationView imageLoadingAnimationView;
+        private LottieAnimationView imageLoadedUnitIncompleteAnimationView;
+        private LottieAnimationView imageLoadedUnitCompleteAnimationView;
         private Unit unit;
 
         public UnitListRecyclerViewHolder(final View itemView) {
@@ -68,8 +91,13 @@ public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRe
             unitSerialTextView = itemView.findViewById(R.id.unitSerialID_textView);
             unitTitleTextView = itemView.findViewById(R.id.unitTitle_textView);
             unitIconImageView = itemView.findViewById(R.id.unitIcon_imageView);
-            viewTopicsButton = itemView.findViewById(R.id.viewTopics_button);
-            viewTopicsButton.setOnClickListener(new View.OnClickListener() {
+            unitCardView = itemView.findViewById(R.id.cardView_unit);
+
+            imageLoadingAnimationView = itemView.findViewById(R.id.image_loading_lottie_unit);
+            imageLoadedUnitIncompleteAnimationView = itemView.findViewById(R.id.image_loaded_lottie_unit);
+            imageLoadedUnitCompleteAnimationView = itemView.findViewById(R.id.image_loaded_lottie_unit_green);
+
+            unitCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = TopicsActivity.getIntent(itemView.getContext(),unit);

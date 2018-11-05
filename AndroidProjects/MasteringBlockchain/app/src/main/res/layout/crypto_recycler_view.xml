@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical|start"
+        android:orientation="horizontal">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="start|center_vertical"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="single_star_anim_blue.json"
+            app:lottie_loop="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Buttons_Tabs"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="TOP BLOCKCHAIN PROJECTS"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="start|center_vertical"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="single_star_anim_blue.json"
+            app:lottie_loop="true"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/crypto_list_recycler_view">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
