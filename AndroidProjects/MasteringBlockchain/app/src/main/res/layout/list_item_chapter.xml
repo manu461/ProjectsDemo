@@ -148,6 +148,7 @@
                     android:layout_gravity="center"
                     android:padding="5dp"
                     android:checked="false"
+                    android:clickable="false"
                     android:button="@drawable/custom_checkbox"/>
             </LinearLayout>
 

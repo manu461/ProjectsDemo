@@ -2,10 +2,12 @@ package e.dekod.masteringblockchain;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,11 +34,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
@@ -50,6 +57,7 @@ import e.dekod.masteringblockchain.Beans.Luggage;
 import e.dekod.masteringblockchain.Beans.Topic;
 import e.dekod.masteringblockchain.Beans.Unit;
 import e.dekod.masteringblockchain.Beans.User;
+import spencerstudios.com.bungeelib.Bungee;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -65,6 +73,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<CryptoCurrency> allCryptoList;
     private User user;
     private int topicCount;
+    private ArrayList<Boolean> allTopicStatusList;
     private ArrayList<String> homePageImages;
     private boolean sliderViewIsSetOnce = false;
 
@@ -72,21 +81,39 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-
-        allChapterList = luggage.getAllChapterList();
-        allCryptoList = luggage.getAllCryptoList();
-        user = luggage.getUser();
-        Log.d("debug","Home : "+user.toString());
-        topicCount = luggage.getTopicCount();
-        homePageImages = luggage.getHomePageImages();
-
         if(!sliderViewIsSetOnce) {
             setSliderViews();
         }
-
         //chapterRecyclerView.setAdapter(new ChapterListRecyclerViewAdapter(allChapterList));
         //cryptoRecyclerView.setAdapter(new CryptoListRecyclerViewAdapter(allCryptoList));
-        masterRecyclerView.setAdapter(new HomeRecyclerViewMasterAdapter(this,allChapterList,allCryptoList));
+
+
+        FirebaseAuth mAuth;
+        DatabaseReference databaseUser;
+        mAuth = FirebaseAuth.getInstance();
+        databaseUser = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("topicsStatus");
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        databaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                allTopicStatusList = new ArrayList<>();
+                allTopicStatusList.clear();
+                Iterable<DataSnapshot> var = dataSnapshot.getChildren();
+                for(DataSnapshot statusSnapshot : var){
+                    Boolean status = statusSnapshot.getValue(Boolean.class);
+                    allTopicStatusList.add(status);
+                }
+
+                updateUIStatus();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
     }
 
@@ -95,6 +122,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //progressBarChapterList = findViewById(R.id.progressBar_chapterList);
         //chapterRecyclerView = (RecyclerView) findViewById(R.id.chapter_list_recycler_view);
@@ -102,14 +137,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         masterRecyclerView = findViewById(R.id.master_recycler_view);
 
         sliderLayout = findViewById(R.id.imageSlider);
-
-        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.FILL);
+        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.THIN_WORM);
         sliderLayout.setScrollTimeInSec(1);
 
 
         //chapterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //cryptoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         masterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ViewCompat.setNestedScrollingEnabled(masterRecyclerView, false);
 
         luggage = (Luggage) getIntent().getSerializableExtra(KEY);
 
@@ -123,7 +158,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);allChapterList = luggage.getAllChapterList();
+        allCryptoList = luggage.getAllCryptoList();
+        user = luggage.getUser();
+        allTopicStatusList = (ArrayList<Boolean>) user.getTopicsStatus();
+        topicCount = luggage.getTopicCount();
+        homePageImages = luggage.getHomePageImages();
+        Log.d("debug","Home : "+user.toString());
+        updateUIStatus();
+
+
+
+
+
 
     }
 
@@ -143,13 +190,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-        ImageView userImageView = findViewById(R.id.userImage_nav_bar_imageView);
+        CircularImageView userImageView = findViewById(R.id.userImage_nav_bar_CircularImageView);
         TextView nameTextView = findViewById(R.id.userName_nav_bar_textView);
         TextView emailTextView = (TextView)findViewById(R.id.userEmail_nav_bar_textView);
 
         Picasso.get().load(user.getUserImage()).into(userImageView);
         nameTextView.setText(user.getUserName());
         emailTextView.setText(user.getUserEmail());
+        WebView navBarWebView = findViewById(R.id.nav_bar_web_view);
+        navBarWebView.getSettings().setJavaScriptEnabled(true);
+        navBarWebView.loadUrl("file:///android_asset/particle_js/demo/index.html");
         return true;
     }
 
@@ -187,7 +237,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
-            finish();
+            finish();Bungee.slideRight(HomeActivity.this);
             startActivity(new Intent(HomeActivity.this, SplashScreen.class));
         }
 
@@ -204,6 +254,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             sliderLayout.addSliderView(sliderView);
             sliderViewIsSetOnce = true;
         }
+    }
+
+    private void updateUIStatus(){
+
+        masterRecyclerView.setAdapter(new HomeRecyclerViewMasterAdapter(this,allChapterList,allCryptoList,allTopicStatusList));
     }
 
     public static Intent getIntent(Context context, Luggage luggage){

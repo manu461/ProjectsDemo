@@ -1,5 +1,6 @@
 package e.dekod.masteringblockchain;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -20,16 +21,26 @@ import java.util.ArrayList;
 
 import e.dekod.masteringblockchain.Beans.Topic;
 import e.dekod.masteringblockchain.Beans.Unit;
+import spencerstudios.com.bungeelib.Bungee;
 
 
 public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRecyclerViewAdapter.UnitListRecyclerViewHolder> {
 
     private ArrayList<Unit> allUnitsList;
+    ArrayList<Boolean> allTopicStatusList;
+    private Context context;
+    private ArrayList<Integer> completed;
+    private ArrayList<Integer> total;
 
 
-    public UnitListRecyclerViewAdapter(ArrayList<Unit> allUnitsList) {
+    public UnitListRecyclerViewAdapter(ArrayList<Boolean> allTopicStatusList, ArrayList<Integer> completed, ArrayList<Integer> total, ArrayList<Unit> allUnitsList, Context context) {
+        this.allTopicStatusList = allTopicStatusList;
+        this.completed = completed;
+        this.total = total;
         this.allUnitsList = allUnitsList;
+        this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -41,30 +52,36 @@ public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRe
 
     @Override
     public void onBindViewHolder(@NonNull final UnitListRecyclerViewHolder holder, int position) {
+        final int allComplete = completed.get(position)*100/total.get(position);
         Unit unit = allUnitsList.get(position);
         holder.unitSerialTextView.setText("UNIT "+unit.getUnitSerialId());
         holder.unitTitleTextView.setText(unit.getUnitTitle());
-        Picasso.get().load(unit.getUnitIconURL()).into(holder.unitIconImageView, new Callback() {
-            @Override
-            public void onSuccess() {
-                holder.imageLoadingAnimationView.setVisibility(View.GONE);
-                holder.imageLoadingAnimationView.cancelAnimation();
-                holder.imageLoadedUnitIncompleteAnimationView.setVisibility(View.VISIBLE);
-                holder.imageLoadedUnitIncompleteAnimationView.playAnimation();
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        if(position==1){
-           holder.unitIconImageView.setImageResource(R.drawable.completed);
-           holder.imageLoadedUnitIncompleteAnimationView.setVisibility(View.GONE);
-           holder.imageLoadedUnitIncompleteAnimationView.cancelAnimation();
-           holder.imageLoadedUnitCompleteAnimationView.setVisibility(View.VISIBLE);
-           holder.imageLoadedUnitCompleteAnimationView.playAnimation();
+        if(allComplete == 100){
+            holder.unitIconImageView.setImageResource(R.drawable.completed);
+            holder.imageLoadingAnimationView.setVisibility(View.GONE);
+            holder.imageLoadingAnimationView.cancelAnimation();
+            holder.imageLoadedUnitIncompleteAnimationView.setVisibility(View.GONE);
+            holder.imageLoadedUnitIncompleteAnimationView.cancelAnimation();
+            holder.imageLoadedUnitCompleteAnimationView.setVisibility(View.VISIBLE);
+            holder.imageLoadedUnitCompleteAnimationView.playAnimation();
         }
+        else{
+            Picasso.get().load(unit.getUnitIconURL()).into(holder.unitIconImageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    holder.imageLoadingAnimationView.setVisibility(View.GONE);
+                    holder.imageLoadingAnimationView.cancelAnimation();
+                    holder.imageLoadedUnitIncompleteAnimationView.setVisibility(View.VISIBLE);
+                    holder.imageLoadedUnitIncompleteAnimationView.playAnimation();
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+        }
+
         holder.unit = allUnitsList.get(position);
 
 
@@ -78,7 +95,6 @@ public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRe
     public class UnitListRecyclerViewHolder extends RecyclerView.ViewHolder{
         private TextView unitSerialTextView;
         private TextView unitTitleTextView;
-        private CheckBox unitIsCompleteCheckBox;
         private ImageView unitIconImageView;
         private CardView unitCardView;
         private LottieAnimationView imageLoadingAnimationView;
@@ -100,10 +116,14 @@ public class UnitListRecyclerViewAdapter extends RecyclerView.Adapter<UnitListRe
             unitCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = TopicsActivity.getIntent(itemView.getContext(),unit);
+                    Intent intent = TopicsActivity.getIntent(itemView.getContext(),unit, allTopicStatusList);
+                    Bungee.slideLeft(itemView.getContext());
                     itemView.getContext().startActivity(intent);
                 }
             });
         }
+
     }
+
+
 }

@@ -16,6 +16,7 @@ import e.dekod.masteringblockchain.Beans.CryptoCurrency;
 
 public class HomeRecyclerViewMasterAdapter extends RecyclerView.Adapter {
 
+    private final ArrayList<Boolean> allTopicStatusList;
     private Context context;
     ArrayList<Chapter> allChapterList;
     ArrayList<CryptoCurrency> allCryptoList;
@@ -23,10 +24,11 @@ public class HomeRecyclerViewMasterAdapter extends RecyclerView.Adapter {
     private final int HORIZONTAL = 2;
 
 
-    public HomeRecyclerViewMasterAdapter(Context context, ArrayList<Chapter> allChapterList, ArrayList<CryptoCurrency> allCryptoList) {
+    public HomeRecyclerViewMasterAdapter(Context context, ArrayList<Chapter> allChapterList, ArrayList<CryptoCurrency> allCryptoList, ArrayList<Boolean> allTopicStatusList) {
         this.context = context;
         this.allChapterList = allChapterList;
         this.allCryptoList = allCryptoList;
+        this.allTopicStatusList = allTopicStatusList;
     }
 
     @NonNull
@@ -72,7 +74,7 @@ public class HomeRecyclerViewMasterAdapter extends RecyclerView.Adapter {
 
     private void verticalView(VerticalViewHolder holder) {
         Log.d("recycler","vertical");
-        ChapterListRecyclerViewAdapter adapter1 = new ChapterListRecyclerViewAdapter(allChapterList, context);
+        ChapterListRecyclerViewAdapter adapter1 = new ChapterListRecyclerViewAdapter(allTopicStatusList, allChapterList, context);
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.recyclerView.setAdapter(adapter1);
     }
@@ -107,4 +109,6 @@ public class HomeRecyclerViewMasterAdapter extends RecyclerView.Adapter {
             recyclerView = (RecyclerView) itemView.findViewById(R.id.crypto_list_recycler_view);
         }
     }
+
+
 }

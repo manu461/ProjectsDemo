@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context=".UnitsActivity">
@@ -21,6 +22,7 @@
             android:id="@+id/collapsing_toolbar_unit_activity"
             app:expandedTitleMarginBottom="15dp"
             app:expandedTitleMarginStart="15dp"
+            app:collapsedTitleGravity="bottom|start"
             app:expandedTitleTextAppearance="@style/Expanded_Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -41,12 +43,17 @@
                     android:layout_width="170dp"
                     android:layout_height="170dp"
                     android:padding="20dp"
+                    app:arc_suffix_text_size="20sp"
+                    app:arc_suffix_text_padding="10dp"
                     android:paddingBottom="50dp"
+                    app:arc_text_size="60sp"
                     custom:arc_progress="55"
                     app:arc_angle="285"
+                    app:arc_text_color="@color/colorAccent"
+
                     android:layout_gravity="center"
-                    app:arc_finished_color="#060b99"
-                    app:arc_unfinished_color="#fff"
+                    app:arc_finished_color="@color/colorAccent"
+                    app:arc_unfinished_color="@color/colorPrimaryDark"
                     custom:arc_bottom_text="Units Completed"/>
 
             </FrameLayout>
@@ -54,7 +61,8 @@
 
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="70dp"
+                app:titleMargin="20dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"></android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -76,7 +84,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="?attr/actionBarSize"
+        android:layout_marginBottom="70dp"
         android:layout_gravity="fill_vertical"
         android:id="@+id/unit_list_recycler_view">
 

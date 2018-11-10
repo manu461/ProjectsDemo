@@ -1,12 +1,15 @@
 package e.dekod.masteringblockchain;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import e.dekod.masteringblockchain.Beans.Chapter;
 import e.dekod.masteringblockchain.Beans.CryptoCurrency;
 import e.dekod.masteringblockchain.Beans.Luggage;
 import e.dekod.masteringblockchain.Beans.User;
+import spencerstudios.com.bungeelib.Bungee;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -69,7 +73,12 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        mWebView = findViewById(R.id.webview);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
+        mWebView = findViewById(R.id.webView_splash);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.loadUrl("file:///android_asset/particle_js/demo/index.html");
 
@@ -101,7 +110,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
         //retrieve all chapters and store it in the arrayList
-        databaseChapters.addValueEventListener(new ValueEventListener() {
+        databaseChapters.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("debug","start chapter OnDataChange");
@@ -129,7 +138,7 @@ public class SplashScreen extends AppCompatActivity {
         });
 
         //retrieve all crypto and store it in the arrayList
-        databaseCrypto.addValueEventListener(new ValueEventListener() {
+        databaseCrypto.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("debug","start chapter OnDataChange");
@@ -158,7 +167,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
         //retrieve topic count and store it a int variable
-        databaseTopicCount.addValueEventListener(new ValueEventListener() {
+        databaseTopicCount.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("debug","start topicCount OnDataChange");
@@ -177,7 +186,7 @@ public class SplashScreen extends AppCompatActivity {
         });
 
         //retrieve Homepage Images
-        databaseHomePageImages.addValueEventListener(new ValueEventListener() {
+        databaseHomePageImages.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("debug","start homePageImages OnDataChange");
@@ -204,27 +213,15 @@ public class SplashScreen extends AppCompatActivity {
 
 
 
+
+
         if (mAuth.getCurrentUser() != null) {
 
             Log.d("debug","start- if user not null");
 
             //retrieve user information from database and store it in user object
-            final FirebaseUser currentUser = mAuth.getCurrentUser();
-            databaseUser.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    user = dataSnapshot.child(currentUser.getUid()).getValue(User.class);
-                    userLoaded = true;
+            loadUser();
 
-                    //--------------------------------------------//
-                    tryLaunchingIntent();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
             //retrieve topicStatus array and create user object
             //sleep for some time
             //call intent to homeActivity and pass user, topicCount, chapterList, topicStatusExists
@@ -306,6 +303,7 @@ public class SplashScreen extends AppCompatActivity {
                     userLoaded = true;
                     //-----------------------------------------//
                     tryLaunchingIntent();
+
                     databaseUser.child(user.getUid()).setValue(this.user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -323,10 +321,7 @@ public class SplashScreen extends AppCompatActivity {
                 else {
                     Log.d("debug","inside else Timestamp comparison");
                     //retrieve current user data from database and store itt in user object
-                    this.user = new User(user.getUid(),user.getEmail(),user.getDisplayName(),user.getPhotoUrl().toString(),null);//----------------
-                    userLoaded = true;
-                    //----------------------------------//
-                    tryLaunchingIntent();
+                    loadUser();
                 }
                 //pass luggage to home activity
                 ///////////////////////////////////////////
@@ -353,9 +348,11 @@ public class SplashScreen extends AppCompatActivity {
                 public void run() {
                     Log.d("debug","splash: "+user.toString());
                     Intent intent = HomeActivity.getIntent(SplashScreen.this, new Luggage(allChapterList, allCryptoList, topicCount, user, homePageImages));
-                    startActivity(intent);
-                    mWebView.destroy();
+                    //mWebView.destroy();
                     finish();
+                    Bungee.slideLeft(SplashScreen.this);
+                    startActivity(intent);
+
                 }
             },SPLASH_TIME_OUT);
 
@@ -375,4 +372,35 @@ public class SplashScreen extends AppCompatActivity {
 //            }
 //        },SPLASH_TIME_OUT);
 //    }
+
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        databaseRoot;
+//        databaseChapters;
+//        databaseCrypto;
+//        databaseTopicCount;
+//        databaseUser;
+//        databaseHomePageImages;
+//
+//    }
+    private void loadUser(){
+    final FirebaseUser currentUser = mAuth.getCurrentUser();
+    databaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            user = dataSnapshot.child(currentUser.getUid()).getValue(User.class);
+            userLoaded = true;
+
+            //--------------------------------------------//
+            tryLaunchingIntent();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    });
+}
 }

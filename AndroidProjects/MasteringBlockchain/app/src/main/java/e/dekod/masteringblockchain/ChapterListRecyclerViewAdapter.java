@@ -2,9 +2,11 @@ package e.dekod.masteringblockchain;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +20,25 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import e.dekod.masteringblockchain.Beans.Chapter;
-import e.dekod.masteringblockchain.Beans.Unit;
+import spencerstudios.com.bungeelib.Bungee;
 
 public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<ChapterListRecyclerViewAdapter.ChapterListRecyclerViewHolder> {
 
 
-    private ArrayList<Chapter> allChaptersList;
+    private final ArrayList<Boolean> allTopicStatusList;
+    private ArrayList<Chapter> allChapterList;
     Context context;
-    public ChapterListRecyclerViewAdapter(ArrayList<Chapter> allChaptersList, Context context) {
-        this.allChaptersList = allChaptersList;
+    private ArrayList<Integer> completed;
+    private ArrayList<Integer> total;
+
+    public ChapterListRecyclerViewAdapter(ArrayList<Boolean> allTopicStatusList, ArrayList<Chapter> allChaptersList, Context context) {
+        this.allTopicStatusList = allTopicStatusList;
+        this.allChapterList = allChaptersList;
         this.context = context;
+        method();
     }
 
     @NonNull
@@ -44,7 +51,7 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
 
     @Override
     public void onBindViewHolder(@NonNull final ChapterListRecyclerViewHolder holder, int position) {
-        Chapter chapter = allChaptersList.get(position);
+        Chapter chapter = allChapterList.get(position);
         Picasso.get().load(chapter.getChapterIconURI()).into(holder.chapterIconImageView, new Callback() {
             @Override
             public void onSuccess() {
@@ -59,13 +66,18 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
         });
         holder.chapterTitleTextView.setText(chapter.getChapterTitle());
         holder.chapterDescriptionTextView.setText(chapter.getChapterDescription());
-        holder.chapter = allChaptersList.get(position);
+        holder.chapter = allChapterList.get(position);
+        holder.chapterProgressProgressBar.setProgress(completed.get(position)*100/total.get(position));
+        holder.chapterProgressTextView.setText(completed.get(position)+"/"+total.get(position));
+        holder.chapterSerialTextView.setText("Chapter "+(position+1)+"/"+allChapterList.size());
+        holder.chapterIsCompleteCheckbox.setChecked(completed.get(position) == total.get(position));
+        holder.allTopicStatusList = allTopicStatusList;
 
     }
 
     @Override
     public int getItemCount() {
-        return allChaptersList.size();
+        return allChapterList.size();
     }
 
     public class ChapterListRecyclerViewHolder extends RecyclerView.ViewHolder{
@@ -80,6 +92,7 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
         private LottieAnimationView lottieAnimationView;
         private Chapter chapter;
         private CardView chapterCardView;
+        ArrayList<Boolean> allTopicStatusList;
         public ChapterListRecyclerViewHolder(final View itemView) {
             super(itemView);
             chapterIconImageView = itemView.findViewById(R.id.chapter_icon_imageView);
@@ -96,11 +109,31 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(v.getContext(),chapter.getChapterTitle(), Toast.LENGTH_SHORT).show();
-                    Intent intent = UnitsActivity.getIntent(itemView.getContext(),chapter);
+                    Intent intent = UnitsActivity.getIntent(itemView.getContext(),chapter, allTopicStatusList);
+                    Bungee.slideLeft(itemView.getContext());
                     itemView.getContext().startActivity(intent);
 
                 }
             });
+        }
+    }
+    private void method(){
+        completed = new ArrayList<>();
+        total = new ArrayList<>();
+        for(int i=0;i<allChapterList.size();i++){
+            int totalTopicsOfChapter = 0;
+            int completedTopicsOfChapter = 0;
+            for(int j=0;j<allChapterList.get(i).getUnitsOfChapter().size();j++){
+                for(int k=0;k<allChapterList.get(i).getUnitsOfChapter().get(j).getTopicsOfUnit().size();k++){
+                    if(allTopicStatusList.get(allChapterList.get(i).getUnitsOfChapter().get(j).getTopicsOfUnit().get(k).getTopicSerialId())){
+                        completedTopicsOfChapter++;
+                    }
+                    totalTopicsOfChapter++;
+                }
+            }
+            completed.add(completedTopicsOfChapter);
+            total.add(totalTopicsOfChapter);
+            Log.d("debug","chapter "+i+" :"+completedTopicsOfChapter+"/"+totalTopicsOfChapter);
         }
     }
 }
