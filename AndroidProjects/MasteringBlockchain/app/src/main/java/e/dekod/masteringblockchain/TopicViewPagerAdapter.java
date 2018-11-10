@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import e.dekod.masteringblockchain.Beans.Topic;
+import e.dekod.masteringblockchain.Beans.Unit;
 
 public class TopicViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -32,12 +33,16 @@ public class TopicViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TopicFragment.getInstance(allTopicsList.get(position),allTopicStatusList.get(allTopicsList.get(position).getTopicSerialId()));
+        if(position == allTopicsList.size()){
+            return UnitCompleteFragment.getInstance();
+        }else {
+            return TopicFragment.getInstance(allTopicsList.get(position), allTopicStatusList.get(allTopicsList.get(position).getTopicSerialId()));
+        }
     }
 
     @Override
     public int getCount() {
-        return allTopicsList.size();
+        return allTopicsList.size()+1;
     }
 
     @Override

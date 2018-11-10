@@ -24,13 +24,14 @@
             android:fillViewport="true">
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/image_loading_lottie_crypto"
+                android:id="@+id/unit_completed_lottie"
+                android:layout_margin="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 app:lottie_autoPlay="true"
-                app:lottie_fileName="thin_round_loader_anim.json"
-                app:lottie_loop="true"/>
+                app:lottie_fileName="unit_completed_anim.json"
+                app:lottie_loop="false"/>
 
         </ScrollView>
 

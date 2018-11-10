@@ -117,8 +117,13 @@ public class TopicsActivity extends FragmentActivity {
                 unitTitleTextView.setText(Html.fromHtml("<b>hello</b>"));
 
                 stepView.go(position,true);
-                if(position>0){
+                if(position!=0&&position!=allTopicsList.size()){
                     int topicSerialId = allTopicsList.get(position).getTopicSerialId()-1;
+                    currentUserTopicStatusReference.child(topicSerialId+"").setValue(true);
+                    topicViewPagerAdapter.updateData(position-1);
+                }
+                if(position==allTopicsList.size()){
+                    int topicSerialId = allTopicsList.get(position-1).getTopicSerialId();
                     currentUserTopicStatusReference.child(topicSerialId+"").setValue(true);
                     topicViewPagerAdapter.updateData(position-1);
                     ///now ask for update to topicViewPagerAdapter for position-1
@@ -146,7 +151,7 @@ public class TopicsActivity extends FragmentActivity {
 //                }})
                 // You should specify only steps number or steps array of strings.
                 // In case you specify both steps array is chosen.
-                .stepsNumber(allTopicsList.size())
+                .stepsNumber(allTopicsList.size()+1)
                 .animationDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
 
 
