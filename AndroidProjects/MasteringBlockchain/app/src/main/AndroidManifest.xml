@@ -13,8 +13,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen">
+
+        <activity android:name=".SplashScreen" android:hardwareAccelerated="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,6 +29,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
         <service android:name=".FireBaseWirings.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
@@ -37,17 +40,24 @@
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
+
         <activity
             android:name=".HomeActivity"
+            android:hardwareAccelerated="true"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".UnitsActivity">
+
+        <activity
+            android:name=".UnitsActivity"
+            android:hardwareAccelerated="true">
         </activity>
-        <activity android:name=".TopicsActivity">
+
+        <activity
+            android:name=".TopicsActivity"
+            android:hardwareAccelerated="true">
         </activity>
-        <activity android:name=".Home2Activity">
-        </activity>
+
     </application>
 
 </manifest>

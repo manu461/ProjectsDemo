@@ -73,7 +73,6 @@ public class UnitsActivity extends AppCompatActivity {
         unitRecyclerView = findViewById(R.id.unit_list_recycler_view);
         arcProgressUnit = findViewById(R.id.arc_progress);
 
-
         unitRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
         chapter = (Chapter) getIntent().getSerializableExtra(KEY);
@@ -91,6 +90,10 @@ public class UnitsActivity extends AppCompatActivity {
         }
         arcProgressUnit.setProgress(sumCompleted*100/sumTotal);
         unitRecyclerView.setAdapter(new UnitListRecyclerViewAdapter(allTopicStatusList,completed,total,allUnitsList,this));
+
+        unitRecyclerView.setItemViewCacheSize(20);
+        unitRecyclerView.setDrawingCacheEnabled(true);
+        unitRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
     }
 
     @Override
@@ -121,6 +124,12 @@ public class UnitsActivity extends AppCompatActivity {
                     sumTotal += total.get(i);
                 }
                 arcProgressUnit.setProgress(sumCompleted*100/sumTotal);
+
+                unitRecyclerView.setItemViewCacheSize(20);
+                unitRecyclerView.setDrawingCacheEnabled(true);
+                unitRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+                unitRecyclerView.getRecycledViewPool().setMaxRecycledViews(1,0);
+
                 unitRecyclerView.setAdapter(new UnitListRecyclerViewAdapter(allTopicStatusList,completed,total,allUnitsList,UnitsActivity.this));
 
             }

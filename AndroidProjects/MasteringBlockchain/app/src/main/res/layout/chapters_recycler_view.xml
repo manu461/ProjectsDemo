@@ -37,7 +37,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
+        android:nestedScrollingEnabled="false"
         android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/chapter_list_recycler_view">
     </android.support.v7.widget.RecyclerView>
 

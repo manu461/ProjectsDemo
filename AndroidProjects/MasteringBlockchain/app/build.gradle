@@ -51,7 +51,8 @@ dependencies {
     implementation 'com.airbnb.android:lottie:2.0.0-rc1'
     implementation 'com.github.Binary-Finery:Bungee:master-SNAPSHOT'
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
-
+    implementation 'com.beardedhen:androidbootstrap:2.3.2'
+    implementation 'com.github.moro56:AnimatedCheckBox:v1.0.3@aar'
 
 
 }

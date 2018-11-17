@@ -144,7 +144,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //chapterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //cryptoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         masterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ViewCompat.setNestedScrollingEnabled(masterRecyclerView, false);
+        //ViewCompat.setNestedScrollingEnabled(masterRecyclerView, false);
 
         luggage = (Luggage) getIntent().getSerializableExtra(KEY);
 
@@ -250,7 +250,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         for(int i=0;i<homePageImages.size();i++){
             SliderView sliderView = new SliderView(this);
             sliderView.setImageUrl(homePageImages.get(i));
-            sliderView.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
+            sliderView.setImageScaleType(ImageView.ScaleType.FIT_XY);
             sliderLayout.addSliderView(sliderView);
             sliderViewIsSetOnce = true;
         }
@@ -258,7 +258,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateUIStatus(){
 
+        masterRecyclerView.setItemViewCacheSize(20);
+        masterRecyclerView.setDrawingCacheEnabled(true);
+        masterRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        masterRecyclerView.getRecycledViewPool().setMaxRecycledViews(1,0);
+
         masterRecyclerView.setAdapter(new HomeRecyclerViewMasterAdapter(this,allChapterList,allCryptoList,allTopicStatusList));
+
     }
 
     public static Intent getIntent(Context context, Luggage luggage){

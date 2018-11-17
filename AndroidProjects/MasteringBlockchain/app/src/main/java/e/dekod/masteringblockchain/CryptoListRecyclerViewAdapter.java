@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,10 +83,43 @@ public class CryptoListRecyclerViewAdapter extends RecyclerView.Adapter<CryptoLi
             cryptoCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
                     View view = LayoutInflater.from(context).inflate(R.layout.dialog_crypto_description, null);
+
+                    LottieAnimationView cancelButton = view.findViewById(R.id.cancel_button_lottie_animation_view);
+                    final LottieAnimationView loadingAnimation = view.findViewById(R.id.image_loading_lottie_crypto_description);
+                    TextView descriptionTextView = view.findViewById(R.id.crypto_description_textView);
+                    ImageView cryptoImageImageView = view.findViewById(R.id.crypto_image_image_view);
+                    TextView cryptoNameTextView = view.findViewById(R.id.crypto_name_text_view);
+
+                    descriptionTextView.setText(Html.fromHtml(crypto.getDescription()));
+                    Picasso.get().load(crypto.getImage()).into(cryptoImageImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            loadingAnimation.cancelAnimation();
+                            loadingAnimation.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+                    cryptoNameTextView.setText(crypto.getQualifiedName()+" ("+crypto.getName()+")");
+
+
                     builder.setView(view);
-                    builder.show();
+                    final AlertDialog dialog = builder.create();
+
+                    cancelButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
                 }
             });
 

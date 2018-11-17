@@ -36,4 +36,8 @@ public class UnitCompleteFragment extends android.support.v4.app.Fragment {
         unitCompleteFragment.setArguments(args);
         return unitCompleteFragment;
     }
+
+    public void animate(){
+        unitCompleteAnimation.playAnimation();
+    }
 }

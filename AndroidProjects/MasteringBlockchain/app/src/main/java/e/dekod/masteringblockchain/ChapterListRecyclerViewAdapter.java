@@ -17,12 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.beardedhen.androidbootstrap.BootstrapAlert;
+import com.beardedhen.androidbootstrap.BootstrapProgressBar;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import e.dekod.masteringblockchain.Beans.Chapter;
+import it.emperor.animatedcheckbox.AnimatedCheckBox;
 import spencerstudios.com.bungeelib.Bungee;
 
 public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<ChapterListRecyclerViewAdapter.ChapterListRecyclerViewHolder> {
@@ -67,7 +71,18 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
         holder.chapterTitleTextView.setText(chapter.getChapterTitle());
         holder.chapterDescriptionTextView.setText(chapter.getChapterDescription());
         holder.chapter = allChapterList.get(position);
-        holder.chapterProgressProgressBar.setProgress(completed.get(position)*100/total.get(position));
+        //holder.chapterProgressProgressBar.setProgress(completed.get(position)*100/total.get(position));
+        int progress = completed.get(position)*100/total.get(position);
+        if(progress<30){
+            holder.chapterProgressProgressBarBootstrap.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+        }
+        else if(progress < 100){
+            holder.chapterProgressProgressBarBootstrap.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+        }
+        else{
+            holder.chapterProgressProgressBarBootstrap.setBootstrapBrand(DefaultBootstrapBrand.SUCCESS);
+        }
+        holder.chapterProgressProgressBarBootstrap.setProgress(progress);
         holder.chapterProgressTextView.setText(completed.get(position)+"/"+total.get(position));
         holder.chapterSerialTextView.setText("Chapter "+(position+1)+"/"+allChapterList.size());
         holder.chapterIsCompleteCheckbox.setChecked(completed.get(position) == total.get(position));
@@ -85,7 +100,8 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
         private ImageView chapterIconImageView;
         private TextView chapterTitleTextView;
         private TextView chapterDescriptionTextView;
-        private ProgressBar chapterProgressProgressBar;
+        //private ProgressBar chapterProgressProgressBar;
+        private BootstrapProgressBar chapterProgressProgressBarBootstrap;
         private TextView chapterProgressTextView;
         private TextView chapterSerialTextView;
         private CheckBox chapterIsCompleteCheckbox;
@@ -98,7 +114,8 @@ public class ChapterListRecyclerViewAdapter extends RecyclerView.Adapter<Chapter
             chapterIconImageView = itemView.findViewById(R.id.chapter_icon_imageView);
             chapterTitleTextView = itemView.findViewById(R.id.chapter_title_textView);
             chapterDescriptionTextView = itemView.findViewById(R.id.chapter_description_textView);
-            chapterProgressProgressBar = itemView.findViewById(R.id.chapter_progress_progressBar);
+            //chapterProgressProgressBar = itemView.findViewById(R.id.chapter_progress_progressBar);
+            chapterProgressProgressBarBootstrap = itemView.findViewById(R.id.chapter_progress_progressBar_bootstrap);
             chapterProgressTextView = itemView.findViewById(R.id.chapter_progress_textView);
             chapterSerialTextView = itemView.findViewById(R.id.chapter_serial_textView);
             chapterIsCompleteCheckbox = itemView.findViewById(R.id.chapter_isComplete_checkBox);

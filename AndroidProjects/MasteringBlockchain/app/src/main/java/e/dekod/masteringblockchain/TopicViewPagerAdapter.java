@@ -59,9 +59,17 @@ public class TopicViewPagerAdapter extends FragmentPagerAdapter {
     public void updateData(int position){
 
         String tag = tagHashMap.get(position);
-        if(tag!=null){
-            TopicFragment fragment = (TopicFragment)fragmentManager.findFragmentByTag(tag);
+        Object object = fragmentManager.findFragmentByTag(tag);
+        if(tag!=null && object instanceof TopicFragment){
+            TopicFragment fragment = (TopicFragment)object;
             fragment.update();
         }
+        tag = tagHashMap.get(position+1);
+        object = fragmentManager.findFragmentByTag(tag);
+        if(tag!=null && object instanceof UnitCompleteFragment){
+            UnitCompleteFragment fragment = (UnitCompleteFragment) object;
+            fragment.animate();
+        }
+
     }
 }

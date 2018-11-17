@@ -47,6 +47,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
@@ -56,13 +57,15 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:overScrollMode="never">
         <android.support.v7.widget.RecyclerView
+            android:nestedScrollingEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:layout_marginBottom="0dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/master_recycler_view">
 
         </android.support.v7.widget.RecyclerView>

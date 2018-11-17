@@ -14,6 +14,7 @@
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="4dp"
         card_view:contentPadding="5dp"
+        card_view:cardBackgroundColor="#2db674"
         card_view:cardUseCompatPadding="true"
         android:id="@+id/cardView_chapter"
         android:layout_margin="2dp">
@@ -25,11 +26,14 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/unit_completed_lottie"
-                android:layout_margin="50dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                app:lottie_autoPlay="true"
+                app:lottie_autoPlay="false"
                 app:lottie_fileName="unit_completed_anim.json"
                 app:lottie_loop="false"/>
 

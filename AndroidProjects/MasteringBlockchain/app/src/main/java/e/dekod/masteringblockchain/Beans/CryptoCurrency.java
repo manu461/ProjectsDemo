@@ -4,16 +4,20 @@ import java.io.Serializable;
 
 public class CryptoCurrency implements Serializable {
     private String name;
+    private String qualifiedName;
     private String icon;
     private String description;
+    private String image;
 
     public CryptoCurrency() {
     }
 
-    public CryptoCurrency(String name, String icon, String description) {
+    public CryptoCurrency(String name, String qualifiedName, String icon, String description, String image) {
         this.name = name;
+        this.qualifiedName = qualifiedName;
         this.icon = icon;
         this.description = description;
+        this.image = image;
     }
 
     public String getName() {
@@ -22,6 +26,14 @@ public class CryptoCurrency implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getQualifiedName() {
+        return qualifiedName;
+    }
+
+    public void setQualifiedName(String qualifiedName) {
+        this.qualifiedName = qualifiedName;
     }
 
     public String getIcon() {
@@ -40,12 +52,11 @@ public class CryptoCurrency implements Serializable {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "CryptoCurrency{" +
-                "name='" + name + '\'' +
-                ", icon='" + icon + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

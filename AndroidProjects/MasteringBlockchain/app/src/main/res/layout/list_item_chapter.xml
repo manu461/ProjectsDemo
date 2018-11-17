@@ -76,7 +76,6 @@
 
 
 
-
             </LinearLayout>
 
             <TextView
@@ -98,20 +97,31 @@
                 android:orientation="horizontal"
                 android:padding="5dp"
                 android:gravity="center">
-                <ProgressBar
-                    android:id="@+id/chapter_progress_progressBar"
-                    style="?android:attr/progressBarStyleHorizontal"
+                <!--<ProgressBar-->
+                    <!--android:id="@+id/chapter_progress_progressBar"-->
+                    <!--style="?android:attr/progressBarStyleHorizontal"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="5dp"-->
+                    <!--android:progress="0"-->
+                    <!--android:layout_weight="6"/>-->
+                <com.beardedhen.androidbootstrap.BootstrapProgressBar
+                    android:id="@+id/chapter_progress_progressBar_bootstrap"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="4dp"
                     android:padding="5dp"
-                    android:progress="50"
-                    android:layout_weight="6"/>
+                    app:animated="true"
+                    android:layout_weight="5"
+                    app:bootstrapBrand="success"
+                    app:bootstrapProgress="0"
+                    app:striped="true"
+                    />
                 <TextView
                     android:id="@+id/chapter_progress_textView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="10/20"
-                    android:padding="5dp"
+                    android:padding="8dp"
                     android:layout_weight="1"/>
 
             </LinearLayout>
@@ -149,7 +159,10 @@
                     android:padding="5dp"
                     android:checked="false"
                     android:clickable="false"
+                    android:enabled="false"
                     android:button="@drawable/custom_checkbox"/>
+
+
             </LinearLayout>
 
 

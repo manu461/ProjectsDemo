@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -14,35 +14,33 @@
         android:orientation="horizontal">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="start|center_vertical"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="single_star_anim_blue.json"
+            app:lottie_fileName="books_anim.json"
             app:lottie_loop="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Buttons_Tabs"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:text="TOP BLOCKCHAIN PROJECTS"/>
+            android:text="Test Your Knowledge"/>
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="start|center_vertical"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="single_star_anim_blue.json"
+            app:lottie_fileName="books_anim.json"
             app:lottie_loop="true"/>
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
-        android:id="@+id/crypto_list_recycler_view"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/quiz_list_recycler_view">
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

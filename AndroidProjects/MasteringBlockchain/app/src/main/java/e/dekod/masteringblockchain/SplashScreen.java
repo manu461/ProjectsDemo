@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.common.SignInButton;
@@ -71,6 +72,7 @@ public class SplashScreen extends AppCompatActivity {
         Log.d("debug","enter onCreate");
 
         super.onCreate(savedInstanceState);
+        TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.activity_splash_screen);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

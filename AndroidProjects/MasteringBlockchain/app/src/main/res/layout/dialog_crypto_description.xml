@@ -10,19 +10,91 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="25dp">
+        android:layout_margin="0dp"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"></LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qualified Name (TICKER)"
+                android:textColor="@color/colorAccent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:id="@+id/crypto_name_text_view"/>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/cancel_button_lottie_animation_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="7dp"
+                android:padding="5dp"
+                android:layout_gravity="end"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                app:lottie_fileName="cancel_button_green_anim.json"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"/>
+        </FrameLayout>
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/image_loading_lottie_crypto_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            app:lottie_autoPlay="true"
+                            app:lottie_fileName="five_balls_bounce_anim.json"
+                            app:lottie_loop="true"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:id="@+id/crypto_image_image_view"
+                            />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:padding="10dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:id="@+id/crypto_description_textView"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/intro_lottie_animation_view"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:padding="5dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        app:lottie_fileName="cancel_button_anim.json"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"/>
+
+
 
 
 
