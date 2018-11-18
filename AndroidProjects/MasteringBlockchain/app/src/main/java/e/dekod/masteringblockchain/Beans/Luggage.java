@@ -10,17 +10,21 @@ public class Luggage implements Serializable {
     private int topicCount;
     private User user;
     private ArrayList<String> homePageImages;
+    private ArrayList<Quiz> allQuizList;
+    private ArrayList<String> allAnswersList;
 
 
     public Luggage() {
     }
 
-    public Luggage(ArrayList<Chapter> allChapterList, ArrayList<CryptoCurrency> allCryptoList, int topicCount, User user, ArrayList<String> homePageImages) {
+    public Luggage(ArrayList<Chapter> allChapterList, ArrayList<CryptoCurrency> allCryptoList, int topicCount, User user, ArrayList<String> homePageImages, ArrayList<Quiz> allQuizList, ArrayList<String> allAnswersList) {
         this.allChapterList = allChapterList;
         this.allCryptoList = allCryptoList;
         this.topicCount = topicCount;
         this.user = user;
         this.homePageImages = homePageImages;
+        this.allQuizList = allQuizList;
+        this.allAnswersList = allAnswersList;
     }
 
     public ArrayList<Chapter> getAllChapterList() {
@@ -63,6 +67,22 @@ public class Luggage implements Serializable {
         this.homePageImages = homePageImages;
     }
 
+    public ArrayList<Quiz> getAllQuizList() {
+        return allQuizList;
+    }
+
+    public void setAllQuizList(ArrayList<Quiz> allQuizList) {
+        this.allQuizList = allQuizList;
+    }
+
+    public ArrayList<String> getAllAnswersList() {
+        return allAnswersList;
+    }
+
+    public void setAllAnswersList(ArrayList<String> allAnswersList) {
+        this.allAnswersList = allAnswersList;
+    }
+
     @Override
     public String toString() {
         return "Luggage{" +
@@ -71,6 +91,8 @@ public class Luggage implements Serializable {
                 ", topicCount=" + topicCount +
                 ", user=" + user +
                 ", homePageImages=" + homePageImages +
+                ", allQuizList=" + allQuizList +
+                ", allAnswersList=" + allAnswersList +
                 '}';
     }
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import e.dekod.masteringblockchain.Beans.Chapter;
 import e.dekod.masteringblockchain.Beans.CryptoCurrency;
+import e.dekod.masteringblockchain.Beans.Quiz;
 
 public class HomeRecyclerViewMasterAdapter extends RecyclerView.Adapter {
 
@@ -20,16 +21,20 @@ public class HomeRecyclerViewMasterAdapter extends RecyclerView.Adapter {
     private Context context;
     ArrayList<Chapter> allChapterList;
     ArrayList<CryptoCurrency> allCryptoList;
+    private ArrayList<Quiz> allQuizList;
+    private ArrayList<String> allAnswersList;
     private final int CHAPTER = 1;
     private final int CRYPTO = 2;
     private final int QUIZ = 3;
 
 
-    public HomeRecyclerViewMasterAdapter(Context context, ArrayList<Chapter> allChapterList, ArrayList<CryptoCurrency> allCryptoList, ArrayList<Boolean> allTopicStatusList) {
+    public HomeRecyclerViewMasterAdapter(Context context, ArrayList<Chapter> allChapterList, ArrayList<CryptoCurrency> allCryptoList, ArrayList<Boolean> allTopicStatusList, ArrayList<Quiz> allQuizList, ArrayList<String> allAnswersList) {
         this.context = context;
         this.allChapterList = allChapterList;
         this.allCryptoList = allCryptoList;
         this.allTopicStatusList = allTopicStatusList;
+        this.allQuizList = allQuizList;
+        this.allAnswersList = allAnswersList;
     }
 
     @NonNull
@@ -99,7 +104,7 @@ public class HomeRecyclerViewMasterAdapter extends RecyclerView.Adapter {
     private void QuizView(QuizListViewHolder holder){
 
         Log.d("recycler","quiz");
-        QuizListRecyclerViewAdapter adapter = new QuizListRecyclerViewAdapter(null,context);
+        QuizListRecyclerViewAdapter adapter = new QuizListRecyclerViewAdapter(allQuizList,allAnswersList,context);
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
         holder.recyclerView.setItemViewCacheSize(20);

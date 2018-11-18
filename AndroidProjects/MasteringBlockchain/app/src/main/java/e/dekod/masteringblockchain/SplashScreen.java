@@ -35,6 +35,7 @@ import java.util.List;
 import e.dekod.masteringblockchain.Beans.Chapter;
 import e.dekod.masteringblockchain.Beans.CryptoCurrency;
 import e.dekod.masteringblockchain.Beans.Luggage;
+import e.dekod.masteringblockchain.Beans.Quiz;
 import e.dekod.masteringblockchain.Beans.User;
 import spencerstudios.com.bungeelib.Bungee;
 
@@ -53,18 +54,24 @@ public class SplashScreen extends AppCompatActivity {
     private DatabaseReference databaseTopicCount;
     private DatabaseReference databaseUser;
     private DatabaseReference databaseHomePageImages;
+    private DatabaseReference databaseQuizzes;
+    private DatabaseReference databaseAnswers;
 
     private ArrayList<Chapter> allChapterList;
     private ArrayList<CryptoCurrency> allCryptoList;
     private int topicCount;
     private User user;
     private ArrayList<String> homePageImages;
+    private ArrayList<Quiz> allQuizList;
+    private ArrayList<String> allAnswersList;
 
     private boolean chaptersLoaded = false;
     private boolean cryptoLoaded = false;
     private boolean topicCountLoaded = false;
     private boolean userLoaded = false;
     private boolean homePageImagesLoaded = false;
+    private boolean quizLoaded = false;
+    private boolean answerListLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,9 @@ public class SplashScreen extends AppCompatActivity {
         databaseTopicCount = databaseRoot.child("topicCount");
         databaseUser = databaseRoot.child("users");
         databaseHomePageImages = databaseRoot.child("homePageImages");
+        databaseQuizzes = databaseRoot.child("quizzes");
+        databaseAnswers = databaseRoot.child("answers");
+
 
 
         Log.d("debug","exit onCreate");
@@ -204,6 +214,59 @@ public class SplashScreen extends AppCompatActivity {
                 //------------------------------------//
                 tryLaunchingIntent();
                 Log.d("debug","end homePageImages OnDataChange");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //retrieve all quizzes and store it in the arrayList
+        databaseQuizzes.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("debug","start quizzes OnDataChange");
+                allQuizList = new ArrayList<Quiz>();
+                allQuizList.clear();
+                Iterable<DataSnapshot> var = dataSnapshot.getChildren();
+                for(DataSnapshot quizSnapshot : var){
+                    Quiz quiz = quizSnapshot.getValue(Quiz.class);
+                    allQuizList.add(quiz);
+
+
+                }
+                quizLoaded = true;
+
+
+                //------------------------------------//
+                tryLaunchingIntent();
+                Log.d("debug","end quizzes OnDataChange");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //retrieve all answers and store it in the arrayList
+        databaseAnswers.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("debug","start allAnswers OnDataChange");
+                allAnswersList = new ArrayList<String>();
+                allAnswersList.clear();
+                Iterable<DataSnapshot> var = dataSnapshot.getChildren();
+                for(DataSnapshot answersSnapshot : var){
+                    allAnswersList.add(answersSnapshot.getValue(String.class));
+                }
+                answerListLoaded = true;
+
+
+                //------------------------------------//
+                tryLaunchingIntent();
+                Log.d("debug","end allAnswers OnDataChange");
             }
 
             @Override
@@ -344,12 +407,14 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void tryLaunchingIntent(){
-        if(chaptersLoaded&&cryptoLoaded&&userLoaded&&topicCountLoaded&&homePageImagesLoaded) {
+        if(chaptersLoaded&&cryptoLoaded&&userLoaded&&topicCountLoaded&&homePageImagesLoaded&&answerListLoaded&&quizLoaded) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("debug","splash: "+user.toString());
-                    Intent intent = HomeActivity.getIntent(SplashScreen.this, new Luggage(allChapterList, allCryptoList, topicCount, user, homePageImages));
+                    Log.d("debug","splash user: "+user.toString());
+                    Log.d("debug","splash quiz: "+allQuizList.toString());
+                    Log.d("debug","splash answer: "+allAnswersList.toString());
+                    Intent intent = HomeActivity.getIntent(SplashScreen.this, new Luggage(allChapterList, allCryptoList, topicCount, user, homePageImages, allQuizList, allAnswersList));
                     //mWebView.destroy();
                     finish();
                     Bungee.slideLeft(SplashScreen.this);

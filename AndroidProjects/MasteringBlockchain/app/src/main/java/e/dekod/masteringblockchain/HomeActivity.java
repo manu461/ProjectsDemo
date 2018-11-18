@@ -54,6 +54,7 @@ import java.util.Map;
 import e.dekod.masteringblockchain.Beans.Chapter;
 import e.dekod.masteringblockchain.Beans.CryptoCurrency;
 import e.dekod.masteringblockchain.Beans.Luggage;
+import e.dekod.masteringblockchain.Beans.Quiz;
 import e.dekod.masteringblockchain.Beans.Topic;
 import e.dekod.masteringblockchain.Beans.Unit;
 import e.dekod.masteringblockchain.Beans.User;
@@ -75,6 +76,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private int topicCount;
     private ArrayList<Boolean> allTopicStatusList;
     private ArrayList<String> homePageImages;
+    private ArrayList<Quiz> allQuizList;
+    private ArrayList<String> allAnswersList;
     private boolean sliderViewIsSetOnce = false;
 
 
@@ -164,6 +167,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         allTopicStatusList = (ArrayList<Boolean>) user.getTopicsStatus();
         topicCount = luggage.getTopicCount();
         homePageImages = luggage.getHomePageImages();
+        allQuizList = luggage.getAllQuizList();
+        allAnswersList = luggage.getAllAnswersList();
         Log.d("debug","Home : "+user.toString());
         updateUIStatus();
 
@@ -263,7 +268,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         masterRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         masterRecyclerView.getRecycledViewPool().setMaxRecycledViews(1,0);
 
-        masterRecyclerView.setAdapter(new HomeRecyclerViewMasterAdapter(this,allChapterList,allCryptoList,allTopicStatusList));
+        masterRecyclerView.setAdapter(new HomeRecyclerViewMasterAdapter(this,allChapterList,allCryptoList,allTopicStatusList,allQuizList,allAnswersList));
 
     }
 
